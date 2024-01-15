@@ -28,8 +28,14 @@ const cliOptions = yargs(process.argv.slice(2))
     describe: 'Search by company name',
     type: 'string',
   })
+  .option('e', {
+    alias: 'exportToJson',
+    describe: 'Export company names and addresses from the output to a given JSON file',
+    type: 'string',
+  })
   .example('$0 -f 21 -t 34 -s p -i ./cnabExample.rem', 'output lines filtered by segment P and their related search substring')
   .example('$0 -s Q -c Acme -i ./cnabExample.rem', 'output lines filtered by segment Q and company name')
+  .example('$0 -e cnabExample.json -i ./cnabExample.rem', 'output everything and export company names and addresses from the output to cnabExample.json')
   .argv;
 
 export const {
@@ -38,4 +44,5 @@ export const {
   to,
   segment,
   company,
+  exportToJson,
 } = cliOptions
