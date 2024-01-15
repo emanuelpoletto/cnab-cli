@@ -1,6 +1,5 @@
-# Desafio técnico: leitor de arquivos CNAB
+# Leitor de arquivos CNAB
 
-Este desafio tem a proposta de melhorar uma CLI que lê arquivos cnab.
 Um CNAB é um arquivo posicional, sendo que cabeçalho são as duas primeiras linhas do arquivo e rodapé as duas últimas.
 
 Ele é dividido por segmentos: *P*, *Q* e *R*. Cada linha começa com um código cujo último caractere indica o segmento:
@@ -10,17 +9,16 @@ Ele é dividido por segmentos: *P*, *Q* e *R*. Cada linha começa com um código
 ```
 Neste exemplo, o **Q** aparece na posição/coluna 14. Cada posição representa algo dentro do arquivo cnab.
 
-
 Ao rodar:
 
 ```bash
-node cnabRows.js
+node index.js
 ```
 
 temos o seguinte output:
 
 ```bash
-Usage: cnabRows.js [options]
+Usage: index.js [options]
 
 Options:
       --help          Show help                                        [boolean]
@@ -30,23 +28,31 @@ Options:
   -t, --to            Final position to search on a line                [number]
   -s, --segment       Filter by segment type                            [string]
   -c, --company       Search by company name                            [string]
-  -e, --exportToJson  Export company names and addresses from the output to a gi
-                      ven JSON file                                     [string]
+  -e, --exportToJson  The full path and filename to export the company name and
+                      address from the output in JSON format            [string]
 
 Examples:
-  cnabRows.js -f 21 -t 34 -s p -i ./cnabExample.rem     output lines filtered by segment P and their related search substring
-  cnabRows.js -s Q -c Acme -i ./cnabExample.rem         output lines filtered by segment Q and company name
-  cnabRows.js -e cnabExample.json -i ./cnabExample.rem  output everything and export company names and addresses from the output to cnabExample.json
+  index.js -f 21 -t 34 -s p -i ./cnabExamp  output lines filtered by segment P a
+  le.rem                                    nd their related search substring
+  index.js -s Q -c Acme -i ./cnabExample.r  output lines filtered by segment Q a
+  em                                        nd company name
+  index.js -e cnabExample.json -i ./cnabEx  output everything and export company
+  ample.rem                                  names and addresses from the output
+                                             to cnabExample.json
 
 Missing required argument: i
 ```
 
 A ferramenta busca uma posição e loga isso no terminal.
 
-O desafio consiste em:
+Melhorias:
 
 - [x] poder passar na CLI o local do arquivo.
 - [x] pesquisar por nome da empresa e mostrar em que posição ela foi encontrada e a qual segmento ela pertence.
-- [x] **Bonus**: ler o cnab e escrever um novo arquivo em formato JSON, contendo nome e endereço da empresa.
 
-O candidato tem total liberdade de mudar a estrutura atual desse projeto. A ideia é ver a criatividade de resolver esse problema.
+**Bônus:**
+
+- [x] ler o cnab e escrever um novo arquivo em formato JSON, contendo nome e endereço da empresa.
+- [x] poder instalar a ferramenta CLI globalmente para usar direto o comando `cnabcli` no terminal.
+
+Pode-se mudar a estrutura atual desse projeto. A ideia é ver a criatividade de resolver esse problema.

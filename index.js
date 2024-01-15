@@ -1,8 +1,9 @@
+#! /usr/bin/env node
+
 'use strict'
 
 import path from 'path'
 import { readFile, writeFile } from 'fs/promises'
-import chalk from 'chalk'
 
 import {
   inputFile,
@@ -11,60 +12,21 @@ import {
   segment,
   company,
   exportToJson,
-} from './cliOptions.js'
-
+} from './options.js'
 import {
   FILE_HEADER_ROWS,
   FILE_TAIL_ROWS,
-  COMPANY_NAME_POSITION_START,
-  COMPANY_NAME_POSITION_END,
-  COMPANY_ADDRESS_POSITION_START,
-  COMPANY_ADDRESS_POSITION_END,
 } from './constants.js'
+import {
+  filterByCompanyName,
+  filterBySegmentType,
+  getCompanyAddress,
+  getCompanyName
+} from './filters.js'
+import { log, messageLog } from './log.js'
 
-const { log } = console
 const file = path.resolve(inputFile)
 const segmentType = segment?.toUpperCase()
-
-const messageLog = ({ row, segmentType, from, to, line, company }) => {
-  const print = (text) => (text ? chalk.inverse.bgBlack(text) : '')
-  const search = row.substring(from - 1, to)
-  return `
------ BEGIN: Cnab line: ${line} -----
-- from: ${print(from)}
-- to: ${print(to)}
-- segment type: ${print(segmentType)}
-- search: ${print(search)}
-- company: ${print(company)}
-- row content:
-${row.substring(0, from)}${print(search)}${row.substring(to)}
------ END ------
-`
-}
-
-const filterBySegmentType = (row, segmentType) => {
-  const [initialCode] = row.split(' ')
-  if (initialCode.endsWith(segmentType)) {
-    return row
-  }
-}
-
-const getCompanyName = (row) => row.substring(
-    COMPANY_NAME_POSITION_START,
-    COMPANY_NAME_POSITION_END
-  ).trim()
-const getCompanyAddress = (row) => row.substring(
-    COMPANY_ADDRESS_POSITION_START,
-    COMPANY_ADDRESS_POSITION_END
-  ).trim()
-
-const filterByCompanyName = (row, companyName) => {
-  const rowCompanyName = getCompanyName(row)
-  const regex = new RegExp(companyName, 'i')
-  if (regex.test(rowCompanyName)) {
-    return row
-  }
-}
 
 console.time('Async reading')
 

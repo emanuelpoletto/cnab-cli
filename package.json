@@ -1,8 +1,11 @@
 {
-  "name": "cnabBuilder",
+  "name": "cnab-cli",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/gadielkalleb/cnabBuilder.git",
+  "repository": "https://github.com/emanuelpoletto/cnab-cli.git",
+  "bin": {
+      "cnabcli": "./index.js"
+  },
   "license": "MIT",
   "type": "module",
   "dependencies": {

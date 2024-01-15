@@ -1,6 +1,6 @@
 import yargs from 'yargs'
 
-const cliOptions = yargs(process.argv.slice(2))
+const options = yargs(process.argv.slice(2))
   .usage('Usage: $0 [options]')
   .option('i', {
     alias: 'inputFile',
@@ -30,7 +30,7 @@ const cliOptions = yargs(process.argv.slice(2))
   })
   .option('e', {
     alias: 'exportToJson',
-    describe: 'Export company names and addresses from the output to a given JSON file',
+    describe: 'The full path and filename to export the company name and address from the output in JSON format',
     type: 'string',
   })
   .example('$0 -f 21 -t 34 -s p -i ./cnabExample.rem', 'output lines filtered by segment P and their related search substring')
@@ -45,4 +45,4 @@ export const {
   segment,
   company,
   exportToJson,
-} = cliOptions
+} = options
