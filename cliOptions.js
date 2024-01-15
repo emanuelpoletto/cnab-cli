@@ -23,7 +23,13 @@ const cliOptions = yargs(process.argv.slice(2))
     describe: 'Filter by segment type',
     type: 'string',
   })
+  .option('c', {
+    alias: 'company',
+    describe: 'Search by company name',
+    type: 'string',
+  })
   .example('$0 -f 21 -t 34 -s p -i ./cnabExample.rem', 'output lines filtered by segment P and their related search substring')
+  .example('$0 -s Q -c Acme -i ./cnabExample.rem', 'output lines filtered by segment Q and company name')
   .argv;
 
 export const {
@@ -31,4 +37,5 @@ export const {
   from,
   to,
   segment,
+  company,
 } = cliOptions
