@@ -11,23 +11,33 @@ import {
   segment,
 } from './cliOptions.js'
 
+const FILE_HEADER_ROWS = 2
+const FILE_TAIL_ROWS = 2
+
 const file = path.resolve(inputFile)
+const segmentType = segment?.toUpperCase()
+const { log } = console
 
-const sliceArrayPosition = (arr, ...positions) => [...arr].slice(...positions)
-
-const messageLog = ({ segment, segmentType, from, to, line }) => {
+const messageLog = ({ row, segmentType, from, to, line }) => {
   const print = (text) => (text ? chalk.inverse.bgBlack(text) : '')
-  const strFound = segment.substring(from - 1, to)
+  const search = row.substring(from - 1, to)
   return `
 ----- BEGIN: Cnab line: ${line} -----
 - from: ${print(from)}
 - to: ${print(to)}
 - segment type: ${print(segmentType)}
-- search: ${print(strFound)}
+- search: ${print(search)}
 - row content:
-${segment.substring(0, from)}${print(strFound)}${segment.substring(to)}
+${row.substring(0, from)}${print(search)}${row.substring(to)}
 ----- END ------
 `
+}
+
+const filterBySegmentType = (row, segmentType) => {
+  const [initialCode] = row.split(' ')
+  if (initialCode.endsWith(segmentType)) {
+    return row
+  }
 }
 
 console.time('leitura Async')
@@ -35,30 +45,20 @@ console.time('leitura Async')
 readFile(file, 'utf8')
   .then(file => {
     const cnabArray = file.split('\n')
+    const cnabLength = cnabArray.length - FILE_TAIL_ROWS
 
-    const cnabHeader = sliceArrayPosition(cnabArray, 0, 2)
-
-    const [cnabBodySegmentP, cnabBodySegmentQ, cnabBodySegmentR] = sliceArrayPosition(cnabArray, 2, -2)
-
-    const cnabTail = sliceArrayPosition(cnabArray, -2)
-
-    if (segment === 'p') {
-      console.log(messageLog({ segment: cnabBodySegmentP, segmentType: 'P', from, to }))
-      return
+    for (let i = FILE_HEADER_ROWS; i < cnabLength; i++) {
+      let row = cnabArray[i]
+      if (segmentType) {
+        row = filterBySegmentType(row, segmentType)
+      }
+      if (row) {
+        log(messageLog({ row, segmentType, from, to, line: i }))
+      }
     }
-
-    if (segment === 'q') {
-      console.log(messageLog({ segment: cnabBodySegmentQ, segmentType: 'Q', from, to }))
-      return
-    }
-
-    if (segment === 'r') {
-      console.log(messageLog({ segment: cnabBodySegmentR, segmentType: 'R', from, to }))
-      return
-    }
-
   })
   .catch(error => {
-    console.log('🚀 ~ file: cnabRows.js ~ error:', error)
+    log('🚀 ~ file: cnabRows.js ~ error:', error)
   })
+
 console.timeEnd('leitura Async')
