@@ -55,4 +55,8 @@ Melhorias:
 - [x] ler o cnab e escrever um novo arquivo em formato JSON, contendo nome e endereço da empresa.
 - [x] poder instalar a ferramenta CLI globalmente para usar direto o comando `cnabcli` no terminal.
 
+**TODO:**
+
+- [ ] implementar leitura do arquivo através de streams para melhorar performance e lidar com arquivos grandes.
+
 Pode-se mudar a estrutura atual desse projeto. A ideia é ver a criatividade de resolver esse problema.
