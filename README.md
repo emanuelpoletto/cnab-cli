@@ -11,7 +11,7 @@ Ele é dividido por segmentos: *P*, *Q* e *R*. Cada linha começa com um código
 Neste exemplo, o **Q** aparece na posição/coluna 14. Cada posição representa algo dentro do arquivo cnab.
 
 
-Hoje, ao rodar:
+Ao rodar:
 
 ```bash
 node cnabRows.js
@@ -20,28 +20,33 @@ node cnabRows.js
 temos o seguinte output:
 
 ```bash
-node cnabRows.js --help
-Uso: cnabRows.js [options]
+Usage: cnabRows.js [options]
 
-Opções:
-      --help      Exibe ajuda                                         [booleano]
-      --version   Exibe a versão                                      [booleano]
-  -f, --from      posição inicial de pesquisa da linha do Cnab
-                                                          [número] [obrigatório]
-  -t, --to        posição final de pesquisa da linha do Cnab
-                                                          [número] [obrigatório]
-  -s, --segmento  tipo de segmento                        [string] [obrigatório]
+Options:
+      --help          Show help                                        [boolean]
+      --version       Show version number                              [boolean]
+  -i, --inputFile     The full path and filename to be read  [string] [required]
+  -f, --from          Initial position to search on a line              [number]
+  -t, --to            Final position to search on a line                [number]
+  -s, --segment       Filter by segment type                            [string]
+  -c, --company       Search by company name                            [string]
+  -e, --exportToJson  Export company names and addresses from the output to a gi
+                      ven JSON file                                     [string]
 
-Exemplos:
-  cnabRows.js -f 21 -t 34 -s p  lista a linha e campo que from e to do cnab
+Examples:
+  cnabRows.js -f 21 -t 34 -s p -i ./cnabExample.rem     output lines filtered by segment P and their related search substring
+  cnabRows.js -s Q -c Acme -i ./cnabExample.rem         output lines filtered by segment Q and company name
+  cnabRows.js -e cnabExample.json -i ./cnabExample.rem  output everything and export company names and addresses from the output to cnabExample.json
+
+Missing required argument: i
 ```
 
-Hoje, a ferramenta busca uma posição e loga isso no terminal.
+A ferramenta busca uma posição e loga isso no terminal.
 
 O desafio consiste em:
 
 - [x] poder passar na CLI o local do arquivo.
-- [ ] pesquisar por nome da empresa e mostrar em que posição ela foi encontrada e a qual segmento ela pertence.
-- [ ] **Bonus**: ler o cnab e escrever um novo arquivo em formato JSON, contendo nome e endereço da empresa.
+- [x] pesquisar por nome da empresa e mostrar em que posição ela foi encontrada e a qual segmento ela pertence.
+- [x] **Bonus**: ler o cnab e escrever um novo arquivo em formato JSON, contendo nome e endereço da empresa.
 
-O candidato tem total liberdade de mudar a estrutura atual desse projeto, a ideia é ver a criatividade de resolver esse problema.
+O candidato tem total liberdade de mudar a estrutura atual desse projeto. A ideia é ver a criatividade de resolver esse problema.
